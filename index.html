@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090b12">
+<title>JJ Kay Films | Watch More. Experience More.</title>
+<style>
+:root {
+  --bg:#090b12;
+  --panel:#141927;
+  --gold:#e9b44c;
+  --muted:#a5adbd;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial,sans-serif;
+}
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 6%;
+  background:#0d111c;
+  position:sticky;
+  top:0;
+  z-index:10;
+  border-bottom:1px solid #252b39;
+}
+.logo{font-size:24px;font-weight:900;color:var(--gold)}
+.logo span{color:white}
+nav{display:flex;gap:22px}
+nav a{color:white;text-decoration:none;font-size:14px}
+nav a:hover{color:var(--gold)}
+.header-actions{display:flex;gap:10px}
+button{
+  cursor:pointer;
+  border:0;
+  border-radius:6px;
+  padding:11px 16px;
+  font-weight:bold;
+}
+.gold{background:var(--gold);color:#17120a}
+.dark{background:#252d3d;color:white}
+.hero{
+  min-height:440px;
+  padding:90px 7%;
+  display:flex;
+  align-items:center;
+  background:
+    linear-gradient(90deg,#090b12 10%,rgba(9,11,18,.88) 45%,rgba(9,11,18,.15)),
+    linear-gradient(135deg,#243c5b,#6b2941,#171927);
+}
+.hero-content{max-width:570px}
+.eyebrow{color:var(--gold);letter-spacing:3px;font-size:12px}
+.hero h1{font-size:clamp(38px,6vw,65px);margin:15px 0}
+.hero p{color:#d1d5df;line-height:1.7}
+.hero-buttons{display:flex;gap:12px;margin-top:25px}
+.section{padding:35px 6%}
+.section h2{font-size:24px}
+.section-sub{color:var(--muted);font-size:14px}
+.filters{
+  display:flex;gap:10px;flex-wrap:wrap;margin:22px 0;
+}
+.filters button{background:#20283a;color:white}
+.filters button.active{background:var(--gold);color:#111}
+.search{
+  width:100%;max-width:440px;padding:14px;
+  border:1px solid #30394a;border-radius:7px;
+  background:#141927;color:white;font-size:15px;
+}
+.movies{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(155px,1fr));
+  gap:20px;
+}
+.movie{
+  background:var(--panel);border-radius:10px;
+  overflow:hidden;transition:.2s;
+}
+.movie:hover{transform:translateY(-5px)}
+.poster{
+  height:220px;display:flex;align-items:center;
+  justify-content:center;text-align:center;
+  padding:15px;font-size:22px;font-weight:900;
+  letter-spacing:1px;
+  background:linear-gradient(145deg,#263c58,#713e4e);
+}
+.movie:nth-child(2n) .poster{
+  background:linear-gradient(145deg,#513d75,#171927);
+}
+.movie:nth-child(3n) .poster{
+  background:linear-gradient(145deg,#9a6636,#202b3c);
+}
+.movie:nth-child(4n) .poster{
+  background:linear-gradient(145deg,#245d5b,#192236);
+}
+.movie-info{padding:13px}
+.movie-info h3{font-size:15px;margin:3px 0 7px}
+.movie-info p{color:var(--muted);font-size:12px}
+.movie-info button{width:100%;margin-top:8px}
+.empty{color:var(--muted);padding:20px}
+.banner{
+  margin:20px 6%;padding:35px;
+  background:linear-gradient(120deg,#28223d,#533b26);
+  border-radius:12px;
+}
+.banner h2{margin-top:0}
+footer{
+  background:#0d111c;padding:35px 6%;
+  color:var(--muted);text-align:center;
+  line-height:1.8;margin-top:45px;
+}
+footer strong{color:var(--gold)}
+.modal{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.92);z-index:30;
+  padding:20px;align-items:center;justify-content:center;
+}
+.modal-box{
+  width:100%;max-width:750px;background:#141927;
+  padding:22px;border-radius:12px;
+}
+.modal video{width:100%;max-height:400px;background:#000}
+.modal input{
+  width:100%;padding:12px;margin:10px 0;
+  background:#090b12;border:1px solid #394257;
+  color:white;border-radius:6px;
+}
+.close{float:right;background:#30394a;color:white}
+@media(max-width:650px){
+  header{padding:15px 4%;flex-wrap:wrap;gap:13px}
+  nav{order:3;width:100%;justify-content:space-between;gap:8px}
+  nav a{font-size:12px}
+  .hero{padding:65px 6%;min-height:400px}
+  .section{padding:25px 4%}
+  .movies{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .poster{height:180px}
+  .banner{margin:15px 4%}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">JJ <span>KAY FILMS</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#movies">Movies</a>
+    <a href="#series">Series</a>
+    <a href="#about">About</a>
+  </nav>
+  <div class="header-actions">
+    <button class="dark" onclick="accountInfo()">Sign In</button>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="eyebrow">WELCOME TO JJ KAY FILMS</div>
+    <h1>Entertainment Without Limits.</h1>
+    <p>
+      Discover exciting stories, explore new entertainment
+      and enjoy a world of films and series in one place.
+    </p>
+    <div class="hero-buttons">
+      <button class="gold" onclick="goToMovies()">Explore Films ▶</button>
+      <button class="dark" onclick="aboutInfo()">Discover More</button>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="movies">
+  <h2>Explore Our Entertainment</h2>
+  <p class="section-sub">Find something exciting to watch.</p>
+
+  <input class="search" id="search"
+    placeholder="Search films and categories..."
+    oninput="renderMovies()">
+
+  <div class="filters">
+    <button class="active" onclick="setFilter('All',this)">All</button>
+    <button onclick="setFilter('Action',this)">Action</button>
+    <button onclick="setFilter('Drama',this)">Drama</button>
+    <button onclick="setFilter('Comedy',this)">Comedy</button>
+    <button onclick="setFilter('Documentary',this)">Documentary</button>
+    <button onclick="setFilter('Series',this)">Series</button>
+  </div>
+
+  <div class="movies" id="movieGrid"></div>
+</section>
+
+<section class="section" id="series">
+  <div class="banner">
+    <h2>Your Next Favourite Series Starts Here.</h2>
+    <p>Explore a growing collection of entertainment.</p>
+    <button class="gold" onclick="setSeries()">Explore Series</button>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <h2>About JJ Kay Films</h2>
+  <p class="section-sub">
+    JJ Kay Films is an entertainment platform designed to
+    connect audiences with films, series and creative stories.
+    Our vision is to grow into an international entertainment brand.
+  </p>
+</section>
+
+<footer>
+  <strong>JJ KAY FILMS</strong><br>
+  Watch More. Experience More.<br>
+  © 2026 JJ Kay Films. All rights reserved.<br>
+  <a href="#about" style="color:#e9b44c">About Us</a>
+</footer>
+
+<div class="modal" id="playerModal">
+  <div class="modal-box">
+    <button class="close" onclick="closePlayer()">Close ✕</button>
+    <h2 id="playerTitle">Video Player</h2>
+    <p class="section-sub">
+      Enter a direct video URL for content you own or have permission to stream.
+    </p>
+    <input id="videoURL" type="url" placeholder="Paste video URL here">
+    <button class="gold" onclick="loadVideo()">Play Video</button>
+    <video id="videoPlayer" controls playsinline></video>
+    <p class="section-sub" id="playerMessage">
+      Your selected video will appear here.
+    </p>
+  </div>
+</div>
+
+<script>
+const films = [
+  {title:"The Final Mission",category:"Action",year:"2026"},
+  {title:"Beyond The Stars",category:"Drama",year:"2026"},
+  {title:"Laugh Out Loud",category:"Comedy",year:"2026"},
+  {title:"Wild Planet",category:"Documentary",year:"2026"},
+  {title:"City Of Dreams",category:"Drama",year:"2026"},
+  {title:"The Last Journey",category:"Action",year:"2026"},
+  {title:"Our World",category:"Documentary",year:"2026"},
+  {title:"New Beginnings",category:"Series",year:"2026"},
+  {title:"Hidden Secrets",category:"Series",year:"2026"},
+  {title:"The Big Adventure",category:"Comedy",year:"2026"}
+];
+
+let currentFilter="All";
+
+function renderMovies(){
+  const query=document.getElementById("search").value.toLowerCase();
+  const grid=document.getElementById("movieGrid");
+
+  const results=films.filter(film=>{
+    const matchesFilter=currentFilter==="All" ||
+      film.category===currentFilter;
+    const matchesSearch=film.title.toLowerCase().includes(query) ||
+      film.category.toLowerCase().includes(query);
+    return matchesFilter && matchesSearch;
+  });
+
+  grid.innerHTML="";
+
+  if(!results.length){
+    grid.innerHTML='<p class="empty">No matching titles found.</p>';
+    return;
+  }
+
+  results.forEach(film=>{
+    const card=document.createElement("div");
+    card.className="movie";
+
+    const poster=document.createElement("div");
+    poster.className="poster";
+    poster.textContent=film.title.toUpperCase();
+
+    const info=document.createElement("div");
+    info.className="movie-info";
+
+    const heading=document.createElement("h3");
+    heading.textContent=film.title;
+
+    const details=document.createElement("p");
+    details.textContent=film.category+" • "+film.year;
+
+    const button=document.createElement("button");
+    button.className="gold";
+    button.textContent="Watch Now ▶";
+    button.onclick=()=>openPlayer(film.title);
+
+    info.append(heading,details,button);
+    card.append(poster,info);
+    grid.append(card);
+  });
+}
+
+function setFilter(category,button){
+  currentFilter=category;
+  document.querySelectorAll(".filters button")
+    .forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");
+  renderMovies();
+}
+
+function goToMovies(){
+  document.getElementById("movies").scrollIntoView({behavior:"smooth"});
+}
+
+function setSeries(){
+  const buttons=document.querySelectorAll(".filters button");
+  setFilter("Series",buttons[5]);
+  goToMovies();
+}
+
+function openPlayer(title){
+  document.getElementById("playerTitle").textContent=title;
+  document.getElementById("playerModal").style.display="flex";
+}
+
+function loadVideo(){
+  const url=document.getElementById("videoURL").value.trim();
+  const player=document.getElementById("videoPlayer");
+  const message=document.getElementById("playerMessage");
+
+  if(!url){
+    message.textContent="Please enter a video URL first.";
+    return;
+  }
+
+  try{
+    const parsed=new URL(url);
+    if(parsed.protocol!=="https:" && parsed.protocol!=="http:"){
+      throw new Error("Invalid protocol");
+    }
+    player.src=parsed.href;
+    player.load();
+    player.play().catch(()=>{
+      message.textContent="Press play to start, or check the video URL.";
+    });
+    message.textContent="Video ready.";
+  }catch(error){
+    message.textContent="Please enter a valid video URL.";
+  }
+}
+
+function closePlayer(){
+  const player=document.getElementById("videoPlayer");
+  player.pause();
+  player.removeAttribute("src");
+  player.load();
+  document.getElementById("playerModal").style.display="none";
+}
+
+function accountInfo(){
+  alert("JJ Kay Films account registration is coming in a future version.");
+}
+
+function aboutInfo(){
+  document.getElementById("about").scrollIntoView({behavior:"smooth"});
+}
+
+renderMovies();
+</script>
+</body>
+</html>
