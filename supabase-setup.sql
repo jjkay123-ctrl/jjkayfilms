@@ -78,6 +78,15 @@ drop policy if exists "Users upload own video files" on storage.objects;
 create policy "Users upload own video files" on storage.objects for insert to authenticated with check (bucket_id = 'jjkay-videos' and (storage.foldername(name))[1] = auth.uid()::text);
 drop policy if exists "Users read own video files" on storage.objects;
 create policy "Users read own video files" on storage.objects for select to authenticated using (bucket_id = 'jjkay-videos' and (storage.foldername(name))[1] = auth.uid()::text);
+drop policy if exists "Users read published video files" on storage.objects;
+create policy "Users read published video files" on storage.objects for select to anon, authenticated using (
+  bucket_id = 'jjkay-videos'
+  and exists (
+    select 1 from public.videos
+    where public.videos.storage_path = storage.objects.name
+      and public.videos.is_published = true
+  )
+);
 drop policy if exists "Users delete own video files" on storage.objects;
 create policy "Users delete own video files" on storage.objects for delete to authenticated using (bucket_id = 'jjkay-videos' and (storage.foldername(name))[1] = auth.uid()::text);
 
