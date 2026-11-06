@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JJ Kay Films | Admin Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090c14;color:#fff;font-family:Arial,sans-serif}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:240px;background:#111725;padding:25px 18px;flex-shrink:0}
+.logo{font-size:21px;font-weight:bold;color:#e9b44c;margin-bottom:35px}
+.nav button{display:block;width:100%;text-align:left;padding:14px;margin:5px 0;background:transparent;color:#c4ccda;border:0;border-radius:7px;cursor:pointer}
+.nav button.active,.nav button:hover{background:#263047;color:#e9b44c}
+.main{flex:1;padding:30px;min-width:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+h1{font-size:27px;margin:0}
+.muted{color:#9ba6b8;font-size:13px}
+.tag{color:#e9b44c}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:17px;margin:28px 0}
+.card,.panel{background:#141c2b;border:1px solid #263047;border-radius:10px;padding:20px}
+.card h2{font-size:29px;margin:12px 0 5px;color:#e9b44c}
+.panel{margin-top:20px}
+.panel h2{font-size:19px}
+button,input,select{font:inherit}
+.action{background:#e9b44c;color:#17120a;border:0;border-radius:6px;padding:11px 15px;font-weight:bold;cursor:pointer}
+.secondary{background:#293449;color:white;border:0;border-radius:6px;padding:9px 12px;cursor:pointer}
+.danger{background:#782f3b;color:white;border:0;border-radius:6px;padding:9px 12px;cursor:pointer}
+input,select{background:#0c1220;color:white;border:1px solid #354158;border-radius:6px;padding:12px;width:100%;margin:7px 0}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #293449;font-size:13px}
+th{color:#e9b44c}
+.tablewrap{overflow-x:auto}
+.section{display:none}
+.section.active{display:block}
+.notice{padding:13px;background:#222d40;border-radius:7px;color:#cbd5e1;font-size:13px;line-height:1.6}
+@media(max-width:650px){
+ .sidebar{width:65px;padding:15px 7px}
+ .logo{font-size:12px;writing-mode:vertical-rl;margin:10px auto 25px}
+ .nav button{font-size:0;text-align:center;padding:14px 3px}
+ .nav button::first-letter{font-size:17px}
+ .main{padding:18px 12px}
+ h1{font-size:21px}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+ <div class="logo">JJ KAY FILMS</div>
+ <div class="nav">
+  <button class="active" onclick="showPage('overview',this)">▦ Overview</button>
+  <button onclick="showPage('movies',this)">🎬 Movies</button>
+  <button onclick="showPage('users',this)">👥 Users</button>
+  <button onclick="showPage('ads',this)">📢 Advertisements</button>
+  <button onclick="showPage('revenue',this)">💰 Revenue</button>
+  <button onclick="showPage('settings',this)">⚙ Settings</button>
+ </div>
+</aside>
+
+<main class="main">
+<div class="top">
+ <div>
+  <h1 id="pageTitle">Dashboard Overview</h1>
+  <p class="muted">JJ Kay Films Administration Centre</p>
+ </div>
+ <span class="tag">OWNER PANEL</span>
+</div>
+
+<section id="overview" class="section active">
+ <div class="cards">
+  <div class="card">Total Movies<h2 id="movieCount">0</h2><span class="muted">Movie listings</span></div>
+  <div class="card">Total Users<h2>0</h2><span class="muted">Demo statistic</span></div>
+  <div class="card">Total Views<h2>0</h2><span class="muted">Not yet connected</span></div>
+  <div class="card">Revenue<h2>KSh 0</h2><span class="muted">Not yet connected</span></div>
+ </div>
+ <div class="panel">
+  <h2>Welcome to your control centre</h2>
+  <p class="muted">Manage your entertainment platform from one place.</p>
+  <div class="notice">This is the first dashboard prototype. Statistics are demonstration values until a real database and analytics system are connected.</div>
+ </div>
+</section>
+
+<section id="movies" class="section">
+ <div class="panel">
+  <h2>Add a movie or series</h2>
+  <div class="formgrid">
+   <div><label>Title</label><input id="title" placeholder="Enter title"></div>
+   <div><label>Category</label>
+    <select id="category">
+     <option>Action</option><option>Drama</option>
+     <option>Comedy</option><option>Documentary</option>
+     <option>Series</option>
+    </select>
+   </div>
+   <div><label>Year</label><input id="year" type="number" placeholder="2026"></div>
+  </div>
+  <button class="action" onclick="addMovie()">+ Add listing</button>
+  <p class="muted">Add only content you own or are authorized to distribute.</p>
+ </div>
+ <div class="panel">
+  <h2>Content library</h2>
+  <div class="tablewrap">
+   <table>
+    <thead><tr><th>Title</th><th>Category</th><th>Year</th><th>Action</th></tr></thead>
+    <tbody id="movieRows"></tbody>
+   </table>
+  </div>
+ </div>
+</section>
+
+<section id="users" class="section">
+ <div class="panel">
+  <h2>User management</h2>
+  <p class="muted">Your registered users will appear here after a secure account system is connected.</p>
+  <div class="notice">User accounts are not connected in this prototype. Do not enter real personal information here.</div>
+ </div>
+</section>
+
+<section id="ads" class="section">
+ <div class="panel">
+  <h2>Advertisement management</h2>
+  <p class="muted">Manage advertising placements and future advertising partnerships.</p>
+  <div class="notice">Advertising integration is not yet connected. No advertising revenue is currently being collected.</div>
+ </div>
+</section>
+
+<section id="revenue" class="section">
+ <div class="panel">
+  <h2>Revenue centre</h2>
+  <div class="cards">
+   <div class="card">Advertising<h2>KSh 0</h2></div>
+   <div class="card">Subscriptions<h2>KSh 0</h2></div>
+   <div class="card">Total revenue<h2>KSh 0</h2></div>
+  </div>
+  <div class="notice">These are sample figures, not actual earnings. Payment processing and financial reporting still need to be integrated.</div>
+ </div>
+</section>
+
+<section id="settings" class="section">
+ <div class="panel">
+  <h2>Platform settings</h2>
+  <p>Website name: JJ Kay Films</p>
+  <p>Website status: Published on GitHub Pages</p>
+  <p>Website address:</p>
+  <a href="https://jjkay123-ctrl.github.io/jjkayfilms/" class="tag">Open public website</a>
+  <hr style="border-color:#293449;margin:22px 0">
+  <button class="secondary" onclick="window.open('https://github.com/jjkay123-ctrl/jjkayfilms','_blank')">Open GitHub repository</button>
+ </div>
+</section>
+
+</main>
+</div>
+
+<script>
+function showPage(id,button){
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+ button.classList.add('active');
+ const names={overview:'Dashboard Overview',movies:'Movie Management',users:'User Management',ads:'Advertisements',revenue:'Revenue Centre',settings:'Platform Settings'};
+ document.getElementById('pageTitle').textContent=names[id];
+}
+
+let movies=[];
+try{movies=JSON.parse(localStorage.getItem('jjkay_movies')||'[]');if(!Array.isArray(movies))movies=[];}catch(e){movies=[];}
+
+function saveMovies(){
+ localStorage.setItem('jjkay_movies',JSON.stringify(movies));
+ renderMovies();
+}
+
+function addMovie(){
+ const title=document.getElementById('title').value.trim();
+ const category=document.getElementById('category').value;
+ const year=document.getElementById('year').value.trim();
+ if(!title||!year){alert('Please enter a title and year.');return;}
+ movies.push({title,category,year});
+ saveMovies();
+ document.getElementById('title').value='';
+ document.getElementById('year').value='';
+ alert('Movie listing added to this browser.');
+}
+
+function deleteMovie(index){
+ if(confirm('Delete this movie listing?')){
+  movies.splice(index,1);
+  saveMovies();
+ }
+}
+
+function renderMovies(){
+ const rows=document.getElementById('movieRows');
+ rows.innerHTML='';
+ movies.forEach((m,i)=>{
+  const tr=document.createElement('tr');
+  [m.title,m.category,m.year].forEach(value=>{
+   const td=document.createElement('td');
+   td.textContent=value;
+   tr.appendChild(td);
+  });
+  const td=document.createElement('td');
+  const btn=document.createElement('button');
+  btn.className='danger';
+  btn.textContent='Delete';
+  btn.onclick=()=>deleteMovie(i);
+  td.appendChild(btn);
+  tr.appendChild(td);
+  rows.appendChild(tr);
+ });
+ document.getElementById('movieCount').textContent=movies.length;
+}
+renderMovies();
+</script>
+</body>
+  </html>
+    
